@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Badge, Button, Col, Container, Form, Row} from "react-bootstrap";
 
 const ImprovementProposalView = () => {
     const improvementProposalId = window.location.href.split("/improvement-proposals/")[1];
@@ -33,40 +34,70 @@ const ImprovementProposalView = () => {
         }).then(improvementProposalData => setImprovementProposal(improvementProposalData))
     }, [])
     return (
-        <div>
-            <h1>Improvement Proposal {improvementProposalId}</h1>
-            {improvementProposal ? <>
-                <h2>Status: {improvementProposal.status} < /h2>
-                <h3>
-                    Title:
-                    <input
-                        type="text"
-                        id="title"
-                        onChange={(event) => updateImprovementProposal("title", event.target.value)}
-                        value={improvementProposal.title}
-                    />
-                </h3>
-                <h3>
-                    Department:
-                    <input
-                        type="text"
-                        id="department"
-                        onChange={(event) => updateImprovementProposal("department", event.target.value)}
-                        value={improvementProposal.department}
-                    />
-                </h3>
-                <h3>
-                    Description:
-                    <input
-                        type="text"
-                        id="description"
-                        onChange={(event) => updateImprovementProposal("description", event.target.value)}
-                        value={improvementProposal.description}
-                    />
-                </h3>
-                <button onClick={() => save()}>Submit Improvement Proposal</button>
-            </> : <></>}
-        </div>
+        <Container className="mt-5">
+            {improvementProposal ?
+                <>
+                    <Row className="d-flex align-items-center">
+                        <Col>
+                            <h1>IP#{improvementProposal.id} {improvementProposal.title}</h1>
+                        </Col>
+                        <Col>
+                            <Badge pill bg="info" style={{fontSize: "1em"}}>
+                                {improvementProposal.status}
+                            </Badge>
+                        </Col>
+                    </Row>
+                    <Form.Group as={Row} className="my-3">
+                        <Form.Label column sm="3" md="2">
+                            Title
+                        </Form.Label>
+                        <Col sm="9" md="8" lg="6">
+                            <Form.Control
+                                id="title"
+                                type="text"
+                                placeholder="Enter title"
+                                onChange={(event) => updateImprovementProposal("title", event.target.value)}
+                                value={improvementProposal.title}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="3" md="2">
+                            Department
+                        </Form.Label>
+                        <Col sm="9" md="8" lg="6">
+                            <Form.Control
+                                id="department"
+                                type="text"
+                                placeholder="Enter department"
+                                onChange={(event) => updateImprovementProposal("department", event.target.value)}
+                                value={improvementProposal.department}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="3" md="2">
+                            Description
+                        </Form.Label>
+                        <Col sm="9" md="8" lg="6">
+                            <Form.Control
+                                id="description"
+                                as="textarea"
+                                rows={5}
+                                placeholder="Enter description"
+                                onChange={(event) => updateImprovementProposal("description", event.target.value)}
+                                value={improvementProposal.description}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Button size="lg" onClick={() => save()}>
+                        Submit Improvement Proposal
+                    </Button>
+                </>
+                :
+                <></>
+            }
+        </Container>
     );
 };
 
