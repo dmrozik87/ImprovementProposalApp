@@ -1,5 +1,6 @@
 package com.dominikmrozik.ImprovementProposalApp.controller;
 
+import com.dominikmrozik.ImprovementProposalApp.dto.ImprovementProposalResponseDto;
 import com.dominikmrozik.ImprovementProposalApp.entity.ImprovementProposal;
 import com.dominikmrozik.ImprovementProposalApp.entity.User;
 import com.dominikmrozik.ImprovementProposalApp.service.ImprovementProposalService;
@@ -32,7 +33,8 @@ public class ImprovementProposalController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getImprovementProposalById(@PathVariable Long id) {
         Optional<ImprovementProposal> improvementProposalOptional = improvementProposalService.getImprovementProposalById(id);
-        return ResponseEntity.ok(improvementProposalOptional.orElse(new ImprovementProposal()));
+        ImprovementProposalResponseDto improvementProposalResponseDto = new ImprovementProposalResponseDto(improvementProposalOptional.orElse(new ImprovementProposal()));
+        return ResponseEntity.ok(improvementProposalResponseDto);
     }
 
     @PutMapping("/{id}")

@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Badge, Button, Col, Container, Form, Row} from "react-bootstrap";
+import {Badge, Button, ButtonGroup, Col, Container, DropdownButton, Form, Row} from "react-bootstrap";
+import DropdownItem from "react-bootstrap/DropdownItem";
 
 const ImprovementProposalView = () => {
     const improvementProposalId = window.location.href.split("/improvement-proposals/")[1];
     const [improvementProposal, setImprovementProposal] = useState(null);
+    const [departments, setDepartments] = useState([]);
 
     function updateImprovementProposal(property, value) {
         const newImprovementProposal = {...improvementProposal};
@@ -31,8 +33,12 @@ const ImprovementProposalView = () => {
             method: "GET",
         }).then(response => {
             if (response.status === 200) return response.json();
-        }).then(improvementProposalData => setImprovementProposal(improvementProposalData))
+        }).then(improvementProposalResponse => {
+            setImprovementProposal(improvementProposalResponse.improvementProposal);
+            setDepartments(improvementProposalResponse.departments);
+        })
     }, [])
+
     return (
         <Container className="mt-5">
             {improvementProposal ?
@@ -66,13 +72,18 @@ const ImprovementProposalView = () => {
                             Department
                         </Form.Label>
                         <Col sm="9" md="8" lg="6">
-                            <Form.Control
+                            <DropdownButton
+                                as={ButtonGroup}
                                 id="department"
-                                type="text"
-                                placeholder="Enter department"
-                                onChange={(event) => updateImprovementProposal("department", event.target.value)}
-                                value={improvementProposal.department}
-                            />
+                                variant={"info"}
+                                title="Department"
+                            >
+                                {departments.map(department => (
+                                    <DropdownItem eventKey={department.departmentName}>
+                                        {department.departmentName}
+                                    </DropdownItem>
+                                ))}
+                            </DropdownButton>
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3">
