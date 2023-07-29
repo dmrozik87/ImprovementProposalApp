@@ -76,10 +76,14 @@ const ImprovementProposalView = () => {
                                 as={ButtonGroup}
                                 id="department"
                                 variant={"info"}
-                                title="Department"
+                                title={improvementProposal.department ? improvementProposal.department : "Department"}
+                                onSelect={(event) => updateImprovementProposal("department", event)}
                             >
                                 {departments.map(department => (
-                                    <DropdownItem eventKey={department.departmentName}>
+                                    <DropdownItem
+                                        eventKey={department.departmentName}
+                                        key={department.departmentName}
+                                    >
                                         {department.departmentName}
                                     </DropdownItem>
                                 ))}
