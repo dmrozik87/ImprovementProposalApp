@@ -5,6 +5,7 @@ import Homepage from "./Homepage";
 import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import ImprovementProposalView from "./ImprovementProposalView";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
 

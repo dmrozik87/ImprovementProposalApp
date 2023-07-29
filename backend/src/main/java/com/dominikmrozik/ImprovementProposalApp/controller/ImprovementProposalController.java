@@ -34,4 +34,10 @@ public class ImprovementProposalController {
         Optional<ImprovementProposal> improvementProposalOptional = improvementProposalService.getImprovementProposalById(id);
         return ResponseEntity.ok(improvementProposalOptional.orElse(new ImprovementProposal()));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateImprovementProposal(@PathVariable Long id, @RequestBody ImprovementProposal improvementProposal) {
+        ImprovementProposal updatedImprovementProposal = improvementProposalService.save(improvementProposal);
+        return ResponseEntity.ok(updatedImprovementProposal);
+    }
 }

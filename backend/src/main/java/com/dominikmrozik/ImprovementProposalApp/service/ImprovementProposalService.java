@@ -20,15 +20,23 @@ public class ImprovementProposalService {
     public ImprovementProposal createNewImprovementProposal(User user) {
         ImprovementProposal improvementProposal = new ImprovementProposal();
         improvementProposal.setStatus("Pending");
+        improvementProposal.setTitle("");
+        improvementProposal.setDepartment("");
+        improvementProposal.setDescription("");
+        improvementProposal.setReview("");
         improvementProposal.setAssignedTo(user);
         return improvementProposalRepository.save(improvementProposal);
     }
 
     public Set<ImprovementProposal> findImprovementProposalsByUserId(Long userId) {
-        return improvementProposalRepository.findImprovementProposalsByAssignedTo_Id(userId);
+        return improvementProposalRepository.findImprovementProposalsByAssignedTo_IdOrderById(userId);
     }
 
     public Optional<ImprovementProposal> getImprovementProposalById(Long id) {
         return improvementProposalRepository.findById(id);
+    }
+
+    public ImprovementProposal save(ImprovementProposal improvementProposal) {
+        return improvementProposalRepository.save(improvementProposal);
     }
 }

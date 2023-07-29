@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocalState} from "../util/useLocalStorage";
-import {Link} from "react-router-dom";
+import Card from 'react-bootstrap/Card';
+import {Button} from "react-bootstrap";
 
 const Dashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
@@ -30,13 +31,42 @@ const Dashboard = () => {
 
     return (
         <div style={{margin: '2em'}}>
-            {improvementProposals ? improvementProposals.map(improvementProposal => (
-                <div key={improvementProposal.id}>
-                    <Link to={`/improvement-proposals/${improvementProposal.id}`}>
-                        Improvement Proposal ID: {improvementProposal.id}
-                    </Link>
-                </div>)) : <></>}
-            <button onClick={() => createImprovementProposal()}>Submit New Improvement Proposal</button>
+            <div className="mb-5">
+                <Button size="lg" variant="outline-primary" onClick={() => createImprovementProposal()}>
+                    Submit New Improvement Proposal
+                </Button>
+            </div>
+            {improvementProposals ?
+                <div
+                    className="d-grid gap-5"
+                    style={{gridTemplateColumns: "repeat(auto-fill, 18rem)"}}
+                >
+                    {improvementProposals.map(improvementProposal => (
+                        <Card
+                            style={{width: '18rem', height: '13rem'}}
+                            key={improvementProposal.id}
+                        >
+                            <Card.Body className="d-flex flex-column justify-content-around">
+                                <Card.Title>{improvementProposal.title}</Card.Title>
+                                <Card.Subtitle
+                                    className="mb-2 text-muted">Status: {improvementProposal.status}</Card.Subtitle>
+                                <Card.Text style={{marginTop: "1em"}}>
+                                    <b>Department</b>: {improvementProposal.department}
+                                </Card.Text>
+                                <Button
+                                    variant="outline-secondary"
+                                    onClick={() => {
+                                    window.location.href = `/improvement-proposals/${improvementProposal.id}`
+                                }}>
+                                    Edit
+                                </Button>
+                            </Card.Body>
+                        </Card>
+                    ))}
+                </div>
+                :
+                <></>
+            }
         </div>
     );
 };
