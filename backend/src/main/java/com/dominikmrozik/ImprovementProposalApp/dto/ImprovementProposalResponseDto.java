@@ -1,10 +1,12 @@
 package com.dominikmrozik.ImprovementProposalApp.dto;
 
-import com.dominikmrozik.ImprovementProposalApp.entity.Department;
 import com.dominikmrozik.ImprovementProposalApp.entity.ImprovementProposal;
+import com.dominikmrozik.ImprovementProposalApp.unum.Department;
+import com.dominikmrozik.ImprovementProposalApp.unum.Status;
 
 public class ImprovementProposalResponseDto {
     private final Department[] departments = Department.values();
+    private final Status[] statuses = Status.values();
     private ImprovementProposal improvementProposal;
 
     public ImprovementProposalResponseDto(ImprovementProposal improvementProposal) {
@@ -21,5 +23,9 @@ public class ImprovementProposalResponseDto {
 
     public Department[] getDepartments() {
         return departments;
+    }
+
+    public Status[] getStatuses() {
+        return statuses;
     }
 }

@@ -3,6 +3,7 @@ package com.dominikmrozik.ImprovementProposalApp.service;
 import com.dominikmrozik.ImprovementProposalApp.entity.ImprovementProposal;
 import com.dominikmrozik.ImprovementProposalApp.entity.User;
 import com.dominikmrozik.ImprovementProposalApp.repository.ImprovementProposalRepository;
+import com.dominikmrozik.ImprovementProposalApp.unum.Status;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class ImprovementProposalService {
 
     public ImprovementProposal createNewImprovementProposal(User user) {
         ImprovementProposal improvementProposal = new ImprovementProposal();
-        improvementProposal.setStatus("Pending");
+        improvementProposal.setStatus(Status.PENDING_SUBMISSION.getStatus());
         improvementProposal.setTitle("");
         improvementProposal.setDepartment("");
         improvementProposal.setDescription("");

@@ -1,11 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Badge, Button, ButtonGroup, Col, Container, DropdownButton, Form, Row} from "react-bootstrap";
 import DropdownItem from "react-bootstrap/DropdownItem";
 
 const ImprovementProposalView = () => {
     const improvementProposalId = window.location.href.split("/improvement-proposals/")[1];
-    const [improvementProposal, setImprovementProposal] = useState(null);
+    const [improvementProposal, setImprovementProposal] = useState({
+        title: '',
+        department: '',
+        description: '',
+        status: ''
+    });
     const [departments, setDepartments] = useState([]);
+    const [statuses, setStatuses] = useState([]);
+
+    const previousImprovementProposal = useRef(improvementProposal);
 
     function updateImprovementProposal(property, value) {
         const newImprovementProposal = {...improvementProposal};
@@ -14,6 +22,21 @@ const ImprovementProposalView = () => {
     }
 
     function save() {
+        if (improvementProposal.status === statuses[0].status) {
+            updateImprovementProposal("status", statuses[1].status);
+        } else {
+            sendRequest()
+        }
+    }
+
+    useEffect(() => {
+        if (previousImprovementProposal.current.status !== improvementProposal.status) {
+            sendRequest()
+        }
+        previousImprovementProposal.current = improvementProposal;
+    }, [improvementProposal])
+
+    function sendRequest() {
         fetch(`/api/improvement-proposals/${improvementProposalId}`, {
             headers: {
                 "Content-Type": "application/json"
@@ -36,6 +59,7 @@ const ImprovementProposalView = () => {
         }).then(improvementProposalResponse => {
             setImprovementProposal(improvementProposalResponse.improvementProposal);
             setDepartments(improvementProposalResponse.departments);
+            setStatuses(improvementProposalResponse.statuses);
         })
     }, [])
 
