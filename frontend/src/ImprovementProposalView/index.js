@@ -99,7 +99,7 @@ const ImprovementProposalView = () => {
                             <DropdownButton
                                 as={ButtonGroup}
                                 id="department"
-                                variant={"info"}
+                                variant="outline-secondary"
                                 title={improvementProposal.department ? improvementProposal.department : "Department"}
                                 onSelect={(event) => updateImprovementProposal("department", event)}
                             >
@@ -129,9 +129,14 @@ const ImprovementProposalView = () => {
                             />
                         </Col>
                     </Form.Group>
-                    <Button size="lg" onClick={() => save()}>
-                        Submit Improvement Proposal
-                    </Button>
+                    <div className="d-flex gap-5">
+                        <Button variant="outline-primary" size="lg" onClick={() => save()}>
+                            Submit Improvement Proposal
+                        </Button>
+                        <Button variant="outline-secondary" size="lg" onClick={() => window.location.href = "/dashboard"}>
+                            Back
+                        </Button>
+                    </div>
                 </>
                 :
                 <></>

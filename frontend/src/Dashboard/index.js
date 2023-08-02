@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocalState} from "../util/useLocalStorage";
 import Card from 'react-bootstrap/Card';
-import {Button} from "react-bootstrap";
+import {Badge, Button} from "react-bootstrap";
 
 const Dashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
@@ -48,8 +48,9 @@ const Dashboard = () => {
                         >
                             <Card.Body className="d-flex flex-column justify-content-around">
                                 <Card.Title>{improvementProposal.title}</Card.Title>
-                                <Card.Subtitle
-                                    className="mb-2 text-muted">Status: {improvementProposal.status}</Card.Subtitle>
+                                <Badge pill bg="info" style={{fontSize: "1em", marginRight: "auto"}}>
+                                    {improvementProposal.status}
+                                </Badge>
                                 <Card.Text style={{marginTop: "1em"}}>
                                     <b>Department</b>: {improvementProposal.department}
                                 </Card.Text>
