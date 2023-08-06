@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useLocalState} from "../util/useLocalStorage";
 import Card from 'react-bootstrap/Card';
-import {Badge, Button} from "react-bootstrap";
+import {Badge, Button, Col, Row} from "react-bootstrap";
 
 const Dashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
     const [improvementProposals, setImprovementProposals] = useState(null);
+    const [role, setRole] = useState(userData !== null? userData.role: "");
 
     useEffect(() => {
         fetch(`api/improvement-proposals/by-user/${userData.id}`, {
@@ -31,6 +32,20 @@ const Dashboard = () => {
 
     return (
         <div style={{margin: '2em'}}>
+            <Row>
+                <Col>
+                    <div
+                        className="d-flex justify-content-end"
+                        style={{cursor: "pointer"}}
+                        onClick={() => {
+                        setUserData(null);
+                        window.location.href = '/login';
+                    }}
+                    >
+                        Logout
+                        </div>
+                </Col>
+            </Row>
             <div className="mb-5">
                 <Button size="lg" variant="outline-primary" onClick={() => createImprovementProposal()}>
                     Submit New Improvement Proposal
@@ -57,8 +72,8 @@ const Dashboard = () => {
                                 <Button
                                     variant="outline-secondary"
                                     onClick={() => {
-                                    window.location.href = `/improvement-proposals/${improvementProposal.id}`
-                                }}>
+                                        window.location.href = `/improvement-proposals/${improvementProposal.id}`
+                                    }}>
                                     Edit
                                 </Button>
                             </Card.Body>
