@@ -6,16 +6,29 @@ import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import ImprovementProposalView from "./ImprovementProposalView";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {useState} from "react";
+import {useLocalState} from "./util/useLocalStorage";
+import ReviewerDashboard from "./ReviewerDashboard";
 
 function App() {
 
+    const [userData, setUserData] = useLocalState({}, "userData");
+    const [role, setRole] = useState(userData !== null? userData.role: "");
+
     return (
         <Routes>
-            <Route path="/dashboard" element={
-                <PrivateRoute>
-                    <Dashboard/>
-                </PrivateRoute>
-            }/>
+            <Route
+                path="/dashboard"
+                element={
+                    role === "REVIEWER" ?
+                        <PrivateRoute>
+                            <ReviewerDashboard/>
+                        </PrivateRoute>
+                        :
+                        <PrivateRoute>
+                            <Dashboard/>
+                        </PrivateRoute>
+                }/>
             <Route path="/improvement-proposals/:id" element={
                 <PrivateRoute>
                     <ImprovementProposalView/>
