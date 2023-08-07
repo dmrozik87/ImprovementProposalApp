@@ -8,4 +8,6 @@ import java.util.Set;
 public interface ImprovementProposalRepository extends JpaRepository<ImprovementProposal, Long> {
     Set<ImprovementProposal> findImprovementProposalsByAssignedTo_IdOrderById(Long userId);
 
+    Set<ImprovementProposal> findImprovementProposalsByStatusEquals(String status);
+
 }

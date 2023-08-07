@@ -3,7 +3,7 @@ package com.dominikmrozik.ImprovementProposalApp.service;
 import com.dominikmrozik.ImprovementProposalApp.entity.ImprovementProposal;
 import com.dominikmrozik.ImprovementProposalApp.entity.User;
 import com.dominikmrozik.ImprovementProposalApp.repository.ImprovementProposalRepository;
-import com.dominikmrozik.ImprovementProposalApp.unum.Status;
+import com.dominikmrozik.ImprovementProposalApp.enums.Status;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -39,5 +39,9 @@ public class ImprovementProposalService {
 
     public ImprovementProposal save(ImprovementProposal improvementProposal) {
         return improvementProposalRepository.save(improvementProposal);
+    }
+
+    public Set<ImprovementProposal> getImprovementProposalsForReview() {
+        return improvementProposalRepository.findImprovementProposalsByStatusEquals(Status.SUBMITTED.getStatus());
     }
 }

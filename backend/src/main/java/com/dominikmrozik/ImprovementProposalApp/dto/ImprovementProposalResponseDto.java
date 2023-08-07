@@ -1,8 +1,8 @@
 package com.dominikmrozik.ImprovementProposalApp.dto;
 
 import com.dominikmrozik.ImprovementProposalApp.entity.ImprovementProposal;
-import com.dominikmrozik.ImprovementProposalApp.unum.Department;
-import com.dominikmrozik.ImprovementProposalApp.unum.Status;
+import com.dominikmrozik.ImprovementProposalApp.enums.Department;
+import com.dominikmrozik.ImprovementProposalApp.enums.Status;
 
 public class ImprovementProposalResponseDto {
     private final Department[] departments = Department.values();

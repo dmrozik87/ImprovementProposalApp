@@ -1,4 +1,4 @@
-package com.dominikmrozik.ImprovementProposalApp.unum;
+package com.dominikmrozik.ImprovementProposalApp.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

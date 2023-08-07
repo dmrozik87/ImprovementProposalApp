@@ -42,4 +42,9 @@ public class ImprovementProposalController {
         ImprovementProposal updatedImprovementProposal = improvementProposalService.save(improvementProposal);
         return ResponseEntity.ok(updatedImprovementProposal);
     }
+
+    @GetMapping("/for-review")
+    public ResponseEntity<?> getImprovementProposalsForReview() {
+        return ResponseEntity.ok(improvementProposalService.getImprovementProposalsForReview());
+    }
 }
