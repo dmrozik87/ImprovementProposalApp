@@ -13,7 +13,9 @@ public class ImprovementProposal {
     private String description;
     private String review;
     @ManyToOne(optional = false)
-    private User assignedTo;
+    private User user;
+    @ManyToOne
+    private User reviewer;
 
     public Long getId() {
         return id;
@@ -63,11 +65,19 @@ public class ImprovementProposal {
         this.review = review;
     }
 
-    public User getAssignedTo() {
-        return assignedTo;
+    public User getUser() {
+        return user;
     }
 
-    public void setAssignedTo(User assignedTo) {
-        this.assignedTo = assignedTo;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(User reviewer) {
+        this.reviewer = reviewer;
     }
 }

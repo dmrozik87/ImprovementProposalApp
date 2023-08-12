@@ -25,12 +25,12 @@ public class ImprovementProposalService {
         improvementProposal.setDepartment("");
         improvementProposal.setDescription("");
         improvementProposal.setReview("");
-        improvementProposal.setAssignedTo(user);
+        improvementProposal.setUser(user);
         return improvementProposalRepository.save(improvementProposal);
     }
 
     public Set<ImprovementProposal> findImprovementProposalsByUserId(Long userId) {
-        return improvementProposalRepository.findImprovementProposalsByAssignedTo_IdOrderById(userId);
+        return improvementProposalRepository.findImprovementProposalsByUserIdOrderById(userId);
     }
 
     public Optional<ImprovementProposal> getImprovementProposalById(Long id) {

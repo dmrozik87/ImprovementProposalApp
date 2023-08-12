@@ -13,11 +13,31 @@ const ReviewerDashboard = () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            method: "GET",
+            method: "GET"
         }).then(response => {
             if (response.status === 200) return response.json();
         }).then(improvementProposalsData => setImprovementProposals(improvementProposalsData))
     }, []);
+
+    function claimImprovementProposal(improvementProposal) {
+        improvementProposal.reviewer = {
+            id: userData.id
+        };
+        improvementProposal.status = "In review";
+
+        fetch(`/api/improvement-proposals/${improvementProposal.id}`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "PUT",
+            body: JSON.stringify(improvementProposal)
+        }).then(updatedImprovementProposal => {
+            const newImprovementProposals = [...improvementProposals]
+            const index = newImprovementProposals.findIndex(improvementProposal => improvementProposal.id === updatedImprovementProposal.id);
+            newImprovementProposals[index] = updatedImprovementProposal;
+            setImprovementProposals(newImprovementProposals);
+        })
+    }
 
     return (
         <Container>
@@ -44,7 +64,13 @@ const ReviewerDashboard = () => {
             <div className="ip-wrapper submitted">
                 <div
                     className="h3 px-2"
-                    style={{marginTop: "-2em", backgroundColor: "white", width: "min-content", whiteSpace: "nowrap", marginBottom: "1em"}}
+                    style={{
+                        marginTop: "-2em",
+                        backgroundColor: "white",
+                        width: "min-content",
+                        whiteSpace: "nowrap",
+                        marginBottom: "1em"
+                    }}
                 >
                     Awaiting Review
                 </div>
@@ -69,9 +95,9 @@ const ReviewerDashboard = () => {
                                     <Button
                                         variant="outline-secondary"
                                         onClick={() => {
-                                            window.location.href = `/improvement-proposals/${improvementProposal.id}`
+                                            claimImprovementProposal(improvementProposal);
                                         }}>
-                                        Edit
+                                        Claim
                                     </Button>
                                 </Card.Body>
                             </Card>
