@@ -9,11 +9,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {useState} from "react";
 import {useLocalState} from "./util/useLocalStorage";
 import ReviewerDashboard from "./ReviewerDashboard";
+import ReviewerImprovementProposalView from "./ReviewerImprovementProposalView";
 
 function App() {
 
     const [userData, setUserData] = useLocalState({}, "userData");
-    const [role, setRole] = useState(userData !== null? userData.role: "");
+    const [role, setRole] = useState(userData !== null ? userData.role : "");
 
     return (
         <Routes>
@@ -29,11 +30,17 @@ function App() {
                             <Dashboard/>
                         </PrivateRoute>
                 }/>
-            <Route path="/improvement-proposals/:id" element={
-                <PrivateRoute>
-                    <ImprovementProposalView/>
-                </PrivateRoute>
-            }/>
+            <Route path="/improvement-proposals/:id"
+                   element={
+                       role === "REVIEWER" ?
+                           <PrivateRoute>
+                               <ReviewerImprovementProposalView/>
+                           </PrivateRoute>
+                           :
+                           <PrivateRoute>
+                               <ImprovementProposalView/>
+                           </PrivateRoute>
+                   }/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/" element={<Homepage/>}/>
         </Routes>

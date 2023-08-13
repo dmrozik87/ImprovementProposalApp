@@ -7,7 +7,7 @@ const ReviewerDashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
     const [improvementProposals, setImprovementProposals] = useState(null);
     const [role, setRole] = useState(userData !== null ? userData.role : "");
-console.log(improvementProposals)
+
     useEffect(() => {
         fetch(`api/improvement-proposals/for-review/${userData.id}`, {
             headers: {
@@ -37,6 +37,10 @@ console.log(improvementProposals)
             newImprovementProposals[index] = updatedImprovementProposal;
             setImprovementProposals(newImprovementProposals);
         })
+    }
+
+    function editReview(improvementProposal) {
+        window.location.href = `/improvement-proposals/${improvementProposal.id}`
     }
 
     return (
@@ -86,9 +90,9 @@ console.log(improvementProposals)
                                         <Button
                                             variant="outline-secondary"
                                             onClick={() => {
-                                                claimImprovementProposal(improvementProposal);
+                                                editReview(improvementProposal);
                                             }}>
-                                            Claim
+                                            Edit
                                         </Button>
                                     </Card.Body>
                                 </Card>
@@ -164,9 +168,9 @@ console.log(improvementProposals)
                                         <Button
                                             variant="outline-secondary"
                                             onClick={() => {
-                                                claimImprovementProposal(improvementProposal);
+                                                editReview(improvementProposal);
                                             }}>
-                                            Claim
+                                            View
                                         </Button>
                                     </Card.Body>
                                 </Card>

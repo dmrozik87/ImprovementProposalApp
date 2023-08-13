@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Badge, Button, ButtonGroup, Col, Container, DropdownButton, Form, Row} from "react-bootstrap";
+import {Badge, Button, Col, Container, DropdownButton, Form, Row} from "react-bootstrap";
 import DropdownItem from "react-bootstrap/DropdownItem";
 
-const ImprovementProposalView = () => {
+const ReviewerImprovementProposalView = () => {
     const improvementProposalId = window.location.href.split("/improvement-proposals/")[1];
     const [improvementProposal, setImprovementProposal] = useState({
         title: '',
@@ -21,9 +21,9 @@ const ImprovementProposalView = () => {
         setImprovementProposal(newImprovementProposal);
     }
 
-    function save() {
-        if (improvementProposal.status === statuses[0].status || improvementProposal.status === statuses[3].status) {
-            updateImprovementProposal("status", statuses[1].status);
+    function save(status) {
+        if (status && improvementProposal.status !== status) {
+            updateImprovementProposal("status", status);
         } else {
             sendRequest()
         }
@@ -77,31 +77,16 @@ const ImprovementProposalView = () => {
                             </Badge>
                         </Col>
                     </Row>
-                    <Form.Group as={Row} className="my-3">
-                        <Form.Label column sm="3" md="2">
-                            Title
-                        </Form.Label>
-                        <Col sm="9" md="8" lg="6">
-                            <Form.Control
-                                id="title"
-                                type="text"
-                                placeholder="Enter title"
-                                onChange={(event) => updateImprovementProposal("title", event.target.value)}
-                                value={improvementProposal.title}
-                            />
-                        </Col>
-                    </Form.Group>
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="3" md="2">
                             Department
                         </Form.Label>
                         <Col sm="9" md="8" lg="6">
                             <DropdownButton
-                                as={ButtonGroup}
+                                disabled
                                 id="department"
                                 variant="outline-secondary"
                                 title={improvementProposal.department ? improvementProposal.department : "Department"}
-                                onSelect={(event) => updateImprovementProposal("department", event)}
                             >
                                 {departments.map(department => (
                                     <DropdownItem
@@ -120,41 +105,47 @@ const ImprovementProposalView = () => {
                         </Form.Label>
                         <Col sm="9" md="8" lg="6">
                             <Form.Control
+                                disabled
                                 id="description"
                                 as="textarea"
                                 rows={5}
                                 placeholder="Enter description"
-                                onChange={(event) => updateImprovementProposal("description", event.target.value)}
                                 value={improvementProposal.description}
                             />
                         </Col>
                     </Form.Group>
-                    {improvementProposal.status === "Completed" || improvementProposal.status === "Needs Update" ?
-                        <>
-                            <Form.Group as={Row} className="mb-3">
-                                <Form.Label column sm="3" md="2">
-                                    Review
-                                </Form.Label>
-                                <Col sm="9" md="8" lg="6">
-                                    <Form.Control
-                                        disabled
-                                        id="review"
-                                        as="textarea"
-                                        rows={5}
-                                        value={improvementProposal.review}
-                                    />
-                                </Col>
-                            </Form.Group>
-                        </>
-                        :
-                        <></>
-                    }
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="3" md="2">
+                            Review
+                        </Form.Label>
+                        <Col sm="9" md="8" lg="6">
+                            <Form.Control
+                                id="review"
+                                as="textarea"
+                                rows={5}
+                                placeholder="Enter review"
+                                onChange={(event) => updateImprovementProposal("review", event.target.value)}
+                                value={improvementProposal.review}
+                            />
+                        </Col>
+                    </Form.Group>
                     <div className="d-flex gap-5">
-                        {improvementProposal.status === "Completed" || improvementProposal.status === "Submitted" ?
-                            <></>
+                        {improvementProposal.status === "Completed" ?
+                            <Button variant="outline-secondary" size="lg" onClick={() => save(statuses[2].status)}>
+                                Re-Claim
+                            </Button>
                             :
-                            <Button variant="outline-primary" size="lg" onClick={() => save()}>
-                                Submit Improvement Proposal
+                            <Button variant="outline-primary" size="lg" onClick={() => save(statuses[4].status)}>
+                                Complete Review
+                            </Button>
+                        }
+                        {improvementProposal.status === "Needs Update" ?
+                            <Button variant="outline-secondary" size="lg" onClick={() => save(statuses[2].status)}>
+                                Re-Claim
+                            </Button>
+                            :
+                            <Button variant="outline-danger" size="lg" onClick={() => save(statuses[3].status)}>
+                                Send to Update
                             </Button>
                         }
                         <Button variant="outline-secondary" size="lg"
@@ -170,4 +161,4 @@ const ImprovementProposalView = () => {
     );
 };
 
-export default ImprovementProposalView;
+export default ReviewerImprovementProposalView;
