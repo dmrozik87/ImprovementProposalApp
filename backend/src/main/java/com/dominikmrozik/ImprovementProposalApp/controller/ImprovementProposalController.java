@@ -43,8 +43,10 @@ public class ImprovementProposalController {
         return ResponseEntity.ok(updatedImprovementProposal);
     }
 
-    @GetMapping("/for-review")
-    public ResponseEntity<?> getImprovementProposalsForReview() {
-        return ResponseEntity.ok(improvementProposalService.getImprovementProposalsForReview());
+    @GetMapping("/for-review/{reviewerId}")
+    public ResponseEntity<?> getImprovementProposalsForReviewer(@PathVariable Long reviewerId) {
+        User reviewer = new User();
+        reviewer.setId(reviewerId);
+        return ResponseEntity.ok(improvementProposalService.getImprovementProposalsForReviewer(reviewer));
     }
 }

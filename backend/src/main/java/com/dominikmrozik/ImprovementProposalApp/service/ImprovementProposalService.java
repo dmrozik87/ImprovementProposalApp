@@ -41,7 +41,7 @@ public class ImprovementProposalService {
         return improvementProposalRepository.save(improvementProposal);
     }
 
-    public Set<ImprovementProposal> getImprovementProposalsForReview() {
-        return improvementProposalRepository.findImprovementProposalsByStatusEquals(Status.SUBMITTED.getStatus());
+    public Set<ImprovementProposal> getImprovementProposalsForReviewer(User reviewer) {
+        return improvementProposalRepository.findImprovementProposalsByStatusEqualsOrReviewer(Status.SUBMITTED.getStatus(), reviewer);
     }
 }
