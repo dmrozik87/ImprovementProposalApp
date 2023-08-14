@@ -113,12 +113,16 @@ const ReviewerDashboard = () => {
                 <div className="ip-wrapper-title">
                     Awaiting Review
                 </div>
-                {improvementProposals && improvementProposals.filter(ip => ip.status === "Submitted").length > 0 ?
+                {improvementProposals && improvementProposals.filter(ip => ip.status === "Submitted" || ip.status === "Resubmitted").length > 0 ?
                     <div
                         className="d-grid gap-5"
                         style={{gridTemplateColumns: "repeat(auto-fill, 18rem)"}}
                     >
-                        {improvementProposals.filter(ip => ip.status === "Submitted")
+                        {improvementProposals.filter(ip => ip.status === "Submitted"|| ip.status === "Resubmitted")
+                            .sort((a, b) => {
+                                if (a.status === "Resubmitted") return -1;
+                                else return 1;
+                            })
                             .map(improvementProposal => (
                                 <Card
                                     style={{width: '18rem', height: '13rem'}}

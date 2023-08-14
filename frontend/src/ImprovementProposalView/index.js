@@ -26,8 +26,10 @@ const ImprovementProposalView = () => {
     }
 
     function save() {
-        if (improvementProposal.status === statuses[0].status || improvementProposal.status === statuses[3].status) {
+        if (improvementProposal.status === statuses[0].status) {
             updateImprovementProposal("status", statuses[1].status);
+        } else if (improvementProposal.status === statuses[3].status) {
+            updateImprovementProposal("status", statuses[5].status)
         } else {
             sendRequest()
         }

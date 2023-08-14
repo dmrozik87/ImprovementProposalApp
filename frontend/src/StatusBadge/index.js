@@ -7,8 +7,12 @@ const StatusBadge = ({text}) => {
             return "success";
         else if (text === "Needs Update")
             return "danger";
+        else if (text === "Pending Submission")
+            return "warning";
+        else if (text === "Resubmitted")
+            return "primary"
         else
-            return "info"
+            return "info";
     }
 
     return (
