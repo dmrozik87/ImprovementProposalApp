@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, ButtonGroup, Col, Container, DropdownButton, Form, Row} from "react-bootstrap";
 import DropdownItem from "react-bootstrap/DropdownItem";
 import StatusBadge from "../StatusBadge";
+import {useNavigate} from "react-router-dom";
 
 const ImprovementProposalView = () => {
     const improvementProposalId = window.location.href.split("/improvement-proposals/")[1];
@@ -15,6 +16,8 @@ const ImprovementProposalView = () => {
     const [statuses, setStatuses] = useState([]);
 
     const previousImprovementProposal = useRef(improvementProposal);
+
+    let navigate = useNavigate();
 
     function updateImprovementProposal(property, value) {
         const newImprovementProposal = {...improvementProposal};
@@ -157,7 +160,7 @@ const ImprovementProposalView = () => {
                             </Button>
                         }
                         <Button variant="outline-secondary" size="lg"
-                                onClick={() => window.location.href = "/dashboard"}>
+                                onClick={() => navigate("/dashboard")}>
                             Back
                         </Button>
                     </div>

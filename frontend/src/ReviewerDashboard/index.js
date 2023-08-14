@@ -3,11 +3,14 @@ import {useLocalState} from "../util/useLocalStorage";
 import Card from 'react-bootstrap/Card';
 import {Button, Col, Container, Row} from "react-bootstrap";
 import StatusBadge from "../StatusBadge";
+import {useNavigate} from "react-router-dom";
 
 const ReviewerDashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
     const [improvementProposals, setImprovementProposals] = useState(null);
     const [role, setRole] = useState(userData !== null ? userData.role : "");
+
+    let navigate = useNavigate();
 
     useEffect(() => {
         fetch(`api/improvement-proposals/for-review/${userData.id}`, {
@@ -41,7 +44,12 @@ const ReviewerDashboard = () => {
     }
 
     function editReview(improvementProposal) {
-        window.location.href = `/improvement-proposals/${improvementProposal.id}`
+        navigate(`/improvement-proposals/${improvementProposal.id}`)
+    }
+
+    async function handleLogout() {
+        await setUserData(null);
+        navigate('/login');
     }
 
     return (
@@ -52,8 +60,7 @@ const ReviewerDashboard = () => {
                         className="d-flex justify-content-end"
                         style={{cursor: "pointer"}}
                         onClick={() => {
-                            setUserData(null);
-                            window.location.href = '/login';
+                            handleLogout();
                         }}
                     >
                         Logout

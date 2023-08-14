@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
 import {useLocalState} from "../util/useLocalStorage";
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
     const [userData, setUserData] = useLocalState({}, "userData");
+
+    let navigate = useNavigate();
 
     function sendLoginRequest() {
 
@@ -23,12 +26,11 @@ const Login = () => {
             "body": JSON.stringify(reqBody)
         }).then(response => response.json())
             .then(userData => {
-                console.log(userData)
                 if (userData.id === null) {
                     alert("Invalid credentials")
                 } else {
                     setUserData(userData);
-                    window.location.href = "dashboard";
+                    window.location.href = "/dashboard";
                 }
             })
     }
@@ -92,7 +94,7 @@ const Login = () => {
                             variant="outline-secondary"
                             size="lg"
                             type="button"
-                            onClick={() => window.location.href = "/"}
+                            onClick={() => navigate("/")}
                         >Exit</Button>
                     </Col>
                 </Row>

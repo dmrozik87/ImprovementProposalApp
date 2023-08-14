@@ -3,11 +3,14 @@ import {useLocalState} from "../util/useLocalStorage";
 import Card from 'react-bootstrap/Card';
 import {Button, Col, Row} from "react-bootstrap";
 import StatusBadge from "../StatusBadge";
+import {useNavigate} from "react-router-dom";
 
 const Dashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
     const [improvementProposals, setImprovementProposals] = useState(null);
     const [role, setRole] = useState(userData !== null ? userData.role : "");
+
+    let navigate = useNavigate();
 
     useEffect(() => {
         fetch(`api/improvement-proposals/by-user/${userData.id}`, {
@@ -28,7 +31,12 @@ const Dashboard = () => {
             "method": "POST",
             "body": JSON.stringify(userData)
         }).then(response => response.json())
-            .then(improvementProposal => window.location.href = `/improvement-proposals/${improvementProposal.id}`)
+            .then(improvementProposal => navigate(`/improvement-proposals/${improvementProposal.id}`))
+    }
+
+    async function handleLogout() {
+        await setUserData(null);
+        navigate('/login');
     }
 
     return (
@@ -39,8 +47,7 @@ const Dashboard = () => {
                         className="d-flex justify-content-end"
                         style={{cursor: "pointer"}}
                         onClick={() => {
-                            setUserData(null);
-                            window.location.href = '/login';
+                            handleLogout();
                         }}
                     >
                         Logout
@@ -71,7 +78,7 @@ const Dashboard = () => {
                                 <Button
                                     variant="outline-secondary"
                                     onClick={() => {
-                                        window.location.href = `/improvement-proposals/${improvementProposal.id}`
+                                        navigate(`/improvement-proposals/${improvementProposal.id}`)
                                     }}>
                                     Edit
                                 </Button>
