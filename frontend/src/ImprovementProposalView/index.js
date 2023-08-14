@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Badge, Button, ButtonGroup, Col, Container, DropdownButton, Form, Row} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Container, DropdownButton, Form, Row} from "react-bootstrap";
 import DropdownItem from "react-bootstrap/DropdownItem";
+import StatusBadge from "../StatusBadge";
 
 const ImprovementProposalView = () => {
     const improvementProposalId = window.location.href.split("/improvement-proposals/")[1];
@@ -72,9 +73,7 @@ const ImprovementProposalView = () => {
                             <h1>IP#{improvementProposal.id} {improvementProposal.title}</h1>
                         </Col>
                         <Col>
-                            <Badge pill bg="info" style={{fontSize: "1em"}}>
-                                {improvementProposal.status}
-                            </Badge>
+                            <StatusBadge text={improvementProposal.status}/>
                         </Col>
                     </Row>
                     <Form.Group as={Row} className="my-3">

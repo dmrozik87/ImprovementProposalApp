@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useLocalState} from "../util/useLocalStorage";
 import Card from 'react-bootstrap/Card';
-import {Badge, Button, Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
+import StatusBadge from "../StatusBadge";
 
 const ReviewerDashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
@@ -81,9 +82,7 @@ const ReviewerDashboard = () => {
                                 >
                                     <Card.Body className="d-flex flex-column justify-content-around">
                                         <Card.Title>{improvementProposal.title}</Card.Title>
-                                        <Badge pill bg="info" style={{fontSize: "1em", marginRight: "auto"}}>
-                                            {improvementProposal.status}
-                                        </Badge>
+                                        <StatusBadge text={improvementProposal.status}/>
                                         <Card.Text style={{marginTop: "1em"}}>
                                             <b>Department</b>: {improvementProposal.department}
                                         </Card.Text>
@@ -107,7 +106,7 @@ const ReviewerDashboard = () => {
                 <div className="ip-wrapper-title">
                     Awaiting Review
                 </div>
-                {improvementProposals && improvementProposals.filter(ip => ip.status === "Submitted").length >0 ?
+                {improvementProposals && improvementProposals.filter(ip => ip.status === "Submitted").length > 0 ?
                     <div
                         className="d-grid gap-5"
                         style={{gridTemplateColumns: "repeat(auto-fill, 18rem)"}}
@@ -120,9 +119,7 @@ const ReviewerDashboard = () => {
                                 >
                                     <Card.Body className="d-flex flex-column justify-content-around">
                                         <Card.Title>{improvementProposal.title}</Card.Title>
-                                        <Badge pill bg="info" style={{fontSize: "1em", marginRight: "auto"}}>
-                                            {improvementProposal.status}
-                                        </Badge>
+                                        <StatusBadge text={improvementProposal.status}/>
                                         <Card.Text style={{marginTop: "1em"}}>
                                             <b>Department</b>: {improvementProposal.department}
                                         </Card.Text>
@@ -159,9 +156,7 @@ const ReviewerDashboard = () => {
                                 >
                                     <Card.Body className="d-flex flex-column justify-content-around">
                                         <Card.Title>{improvementProposal.title}</Card.Title>
-                                        <Badge pill bg="info" style={{fontSize: "1em", marginRight: "auto"}}>
-                                            {improvementProposal.status}
-                                        </Badge>
+                                        <StatusBadge text={improvementProposal.status}/>
                                         <Card.Text style={{marginTop: "1em"}}>
                                             <b>Department</b>: {improvementProposal.department}
                                         </Card.Text>
