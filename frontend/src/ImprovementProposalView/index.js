@@ -2,10 +2,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, ButtonGroup, Col, Container, DropdownButton, Form, Row} from "react-bootstrap";
 import DropdownItem from "react-bootstrap/DropdownItem";
 import StatusBadge from "../StatusBadge";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {useLocalState} from "../util/useLocalStorage";
 
 const ImprovementProposalView = () => {
-    const improvementProposalId = window.location.href.split("/improvement-proposals/")[1];
+    const [userData, setUserData] = useLocalState({}, "userData");
+    const {improvementProposalId} = useParams();
     const [improvementProposal, setImprovementProposal] = useState({
         title: '',
         department: '',
@@ -14,10 +16,32 @@ const ImprovementProposalView = () => {
     });
     const [departments, setDepartments] = useState([]);
     const [statuses, setStatuses] = useState([]);
+    const [comment, setComment] = useState({
+        text: "",
+        improvementProposal: {id: improvementProposalId},
+        createdBy: {id: userData.id}
+    });
 
     const previousImprovementProposal = useRef(improvementProposal);
 
     let navigate = useNavigate();
+
+    function handleCommentChange(value) {
+        const commentCopy = {...comment};
+        commentCopy.text = value;
+        setComment(commentCopy);
+    }
+
+    function submitComment() {
+        fetch(`/api/comments`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify(comment)
+        }).then(response => response.json())
+            .then(data => console.log(data))
+    }
 
     function updateImprovementProposal(property, value) {
         const newImprovementProposal = {...improvementProposal};
@@ -165,6 +189,14 @@ const ImprovementProposalView = () => {
                                 onClick={() => navigate("/dashboard")}>
                             Back
                         </Button>
+                    </div>
+                    <div className="mt-5">
+                        <textarea
+                            style={{width: "100%"}}
+                            onChange={(event) => handleCommentChange(event.target.value)}
+                        >
+                        </textarea>
+                        <Button onClick={() => submitComment()}>Post Comment</Button>
                     </div>
                 </>
                 :

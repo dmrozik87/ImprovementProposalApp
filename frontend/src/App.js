@@ -30,7 +30,7 @@ function App() {
                             <Dashboard/>
                         </PrivateRoute>
                 }/>
-            <Route path="/improvement-proposals/:id"
+            <Route path="/improvement-proposals/:improvementProposalId"
                    element={
                        role === "REVIEWER" ?
                            <PrivateRoute>
