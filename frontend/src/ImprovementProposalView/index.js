@@ -21,6 +21,7 @@ const ImprovementProposalView = () => {
         improvementProposal: {id: improvementProposalId},
         createdBy: {id: userData.id}
     });
+    const [comments, setComments] = useState([]);
 
     const previousImprovementProposal = useRef(improvementProposal);
 
@@ -40,7 +41,11 @@ const ImprovementProposalView = () => {
             method: "POST",
             body: JSON.stringify(comment)
         }).then(response => response.json())
-            .then(data => console.log(data))
+            .then(commentData => {
+                const commentsCopy = [...comments];
+                commentsCopy.push(commentData);
+                setComments(commentsCopy);
+            })
     }
 
     function updateImprovementProposal(property, value) {
@@ -90,6 +95,19 @@ const ImprovementProposalView = () => {
             setImprovementProposal(improvementProposalResponse.improvementProposal);
             setDepartments(improvementProposalResponse.departments);
             setStatuses(improvementProposalResponse.statuses);
+        })
+    }, [])
+
+    useEffect(() => {
+        fetch(`/api/comments?improvementProposalId=${improvementProposalId}`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "GET",
+        }).then(response => {
+            if (response.status === 200) return response.json();
+        }).then(commentsData => {
+            setComments(commentsData);
         })
     }, [])
 
@@ -190,6 +208,22 @@ const ImprovementProposalView = () => {
                             Back
                         </Button>
                     </div>
+                    {comments ?
+                        <div className="mt-5">
+                            {comments.map(comment =>
+                                <div key={comment.id}>
+                                    {`[${comment.createdAt}] `}
+                                    <span style={{fontWeight: "bold"}}>
+                                    {`${comment.createdBy.username}: `}
+                                </span>
+                                    {`${comment.text}`}
+                                </div>
+                            )}
+                        </div>
+                        :
+                        <></>
+                    }
+
                     <div className="mt-5">
                         <textarea
                             style={{width: "100%"}}

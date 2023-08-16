@@ -9,6 +9,7 @@ import com.dominikmrozik.ImprovementProposalApp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Service
 public class CommentService {
@@ -33,5 +34,9 @@ public class CommentService {
         newComment.setText(comment.getText());
         newComment.setCreatedAt(LocalDateTime.now());
         return commentRepository.save(newComment);
+    }
+
+    public Set<Comment> getCommentsByImprovementProposal(Long improvementProposalId) {
+        return commentRepository.findCommentByImprovementProposal_Id(improvementProposalId);
     }
 }

@@ -5,6 +5,8 @@ import com.dominikmrozik.ImprovementProposalApp.service.CommentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
@@ -21,9 +23,10 @@ public class CommentController {
         return ResponseEntity.ok(newComment);
     }
 
-//    @GetMapping
-//    public ResponseEntity <?> getAllComments() {
-//
-//    }
+    @GetMapping
+    public ResponseEntity<Set<Comment>> getCommentsByImprovementProposal(@RequestParam Long improvementProposalId) {
+        Set<Comment> comments = commentService.getCommentsByImprovementProposal(improvementProposalId);
+        return ResponseEntity.ok(comments);
+    }
 
 }
