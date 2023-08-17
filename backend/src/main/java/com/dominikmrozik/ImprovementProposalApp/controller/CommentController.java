@@ -23,10 +23,24 @@ public class CommentController {
         return ResponseEntity.ok(newComment);
     }
 
+    @PutMapping
+    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
+        Comment upodatedComment = commentService.updateComment(comment);
+        return ResponseEntity.ok(upodatedComment);
+    }
+
     @GetMapping
     public ResponseEntity<Set<Comment>> getCommentsByImprovementProposal(@RequestParam Long improvementProposalId) {
         Set<Comment> comments = commentService.getCommentsByImprovementProposal(improvementProposalId);
         return ResponseEntity.ok(comments);
     }
+
+    @DeleteMapping
+    public ResponseEntity<Comment> deleteComment(@RequestBody Comment comment) {
+        commentService.deleteComment(comment);
+        return ResponseEntity.ok(null);
+    }
+
+
 
 }

@@ -3,8 +3,11 @@ import {Button, Col, Container, DropdownButton, Form, Row} from "react-bootstrap
 import DropdownItem from "react-bootstrap/DropdownItem";
 import StatusBadge from "../StatusBadge";
 import {useNavigate} from "react-router-dom";
+import CommentSection from "../CommentSection/CommentSection";
+import {useLocalState} from "../util/useLocalStorage";
 
 const ReviewerImprovementProposalView = () => {
+    const [userData, setUserData] = useLocalState({}, "userData");
     const improvementProposalId = window.location.href.split("/improvement-proposals/")[1];
     const [improvementProposal, setImprovementProposal] = useState({
         title: '',
@@ -155,6 +158,11 @@ const ReviewerImprovementProposalView = () => {
                             Back
                         </Button>
                     </div>
+
+                    <CommentSection
+                        improvementProposalId={improvementProposalId}
+                        userData={userData}
+                    />
                 </>
                 :
                 <></>

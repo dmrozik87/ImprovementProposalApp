@@ -16,3 +16,10 @@
     white-space: nowrap;
     font-weight: 500;
 }
+
+.comment-bubble {
+    background-color: #eeeeee;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em 0;
+}

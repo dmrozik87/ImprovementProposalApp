@@ -4,6 +4,7 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import StatusBadge from "../StatusBadge";
 import {useNavigate, useParams} from "react-router-dom";
 import {useLocalState} from "../util/useLocalStorage";
+import CommentSection from "../CommentSection/CommentSection";
 
 const ImprovementProposalView = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
@@ -16,37 +17,10 @@ const ImprovementProposalView = () => {
     });
     const [departments, setDepartments] = useState([]);
     const [statuses, setStatuses] = useState([]);
-    const [comment, setComment] = useState({
-        text: "",
-        improvementProposal: {id: improvementProposalId},
-        createdBy: {id: userData.id}
-    });
-    const [comments, setComments] = useState([]);
 
     const previousImprovementProposal = useRef(improvementProposal);
 
     let navigate = useNavigate();
-
-    function handleCommentChange(value) {
-        const commentCopy = {...comment};
-        commentCopy.text = value;
-        setComment(commentCopy);
-    }
-
-    function submitComment() {
-        fetch(`/api/comments`, {
-            headers: {
-                "Content-Type": "application/json"
-            },
-            method: "POST",
-            body: JSON.stringify(comment)
-        }).then(response => response.json())
-            .then(commentData => {
-                const commentsCopy = [...comments];
-                commentsCopy.push(commentData);
-                setComments(commentsCopy);
-            })
-    }
 
     function updateImprovementProposal(property, value) {
         const newImprovementProposal = {...improvementProposal};
@@ -95,19 +69,6 @@ const ImprovementProposalView = () => {
             setImprovementProposal(improvementProposalResponse.improvementProposal);
             setDepartments(improvementProposalResponse.departments);
             setStatuses(improvementProposalResponse.statuses);
-        })
-    }, [])
-
-    useEffect(() => {
-        fetch(`/api/comments?improvementProposalId=${improvementProposalId}`, {
-            headers: {
-                "Content-Type": "application/json"
-            },
-            method: "GET",
-        }).then(response => {
-            if (response.status === 200) return response.json();
-        }).then(commentsData => {
-            setComments(commentsData);
         })
     }, [])
 
@@ -208,30 +169,11 @@ const ImprovementProposalView = () => {
                             Back
                         </Button>
                     </div>
-                    {comments ?
-                        <div className="mt-5">
-                            {comments.map(comment =>
-                                <div key={comment.id}>
-                                    {`[${comment.createdAt}] `}
-                                    <span style={{fontWeight: "bold"}}>
-                                    {`${comment.createdBy.username}: `}
-                                </span>
-                                    {`${comment.text}`}
-                                </div>
-                            )}
-                        </div>
-                        :
-                        <></>
-                    }
 
-                    <div className="mt-5">
-                        <textarea
-                            style={{width: "100%"}}
-                            onChange={(event) => handleCommentChange(event.target.value)}
-                        >
-                        </textarea>
-                        <Button onClick={() => submitComment()}>Post Comment</Button>
-                    </div>
+                    <CommentSection
+                        improvementProposalId={improvementProposalId}
+                        userData={userData}
+                    />
                 </>
                 :
                 <></>

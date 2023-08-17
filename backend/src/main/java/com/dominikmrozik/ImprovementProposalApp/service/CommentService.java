@@ -27,7 +27,6 @@ public class CommentService {
     public Comment createComment(Comment comment) {
         Comment newComment = new Comment();
         User user = userRepository.findById(comment.getCreatedBy().getId()).get();
-        user.setPassword("");
         newComment.setCreatedBy(user);
         ImprovementProposal improvementProposal = improvementProposalRepository.findById(comment.getImprovementProposal().getId()).get();
         newComment.setImprovementProposal(improvementProposal);
@@ -36,7 +35,17 @@ public class CommentService {
         return commentRepository.save(newComment);
     }
 
+    public Comment updateComment(Comment comment) {
+        Comment commentToUpdate = commentRepository.findById(comment.getId()).get();
+        commentToUpdate.setText(comment.getText());
+        return commentRepository.save(commentToUpdate);
+    }
+
     public Set<Comment> getCommentsByImprovementProposal(Long improvementProposalId) {
-        return commentRepository.findCommentByImprovementProposal_Id(improvementProposalId);
+        return commentRepository.findCommentByImprovementProposal_IdOrderByCreatedAt(improvementProposalId);
+    }
+
+    public void deleteComment(Comment comment) {
+        commentRepository.delete(comment);
     }
 }
