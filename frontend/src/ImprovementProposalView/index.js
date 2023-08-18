@@ -4,7 +4,7 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import StatusBadge from "../StatusBadge";
 import {useNavigate, useParams} from "react-router-dom";
 import {useLocalState} from "../util/useLocalStorage";
-import CommentSection from "../CommentSection/CommentSection";
+import Index from "../CommentSection";
 
 const ImprovementProposalView = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
@@ -170,7 +170,7 @@ const ImprovementProposalView = () => {
                         </Button>
                     </div>
 
-                    <CommentSection
+                    <Index
                         improvementProposalId={improvementProposalId}
                         userData={userData}
                     />

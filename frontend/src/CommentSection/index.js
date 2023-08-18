@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Comment from "../Comment";
 import {Button} from "react-bootstrap";
 
-const CommentSection = ({improvementProposalId, userData}) => {
+const Index = ({improvementProposalId, userData}) => {
 
     const emptyComment = {
         text: "",
@@ -75,4 +75,4 @@ const CommentSection = ({improvementProposalId, userData}) => {
     );
 };
 
-export default CommentSection;
+export default Index;

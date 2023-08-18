@@ -3,7 +3,7 @@ import {Button, Col, Container, DropdownButton, Form, Row} from "react-bootstrap
 import DropdownItem from "react-bootstrap/DropdownItem";
 import StatusBadge from "../StatusBadge";
 import {useNavigate} from "react-router-dom";
-import CommentSection from "../CommentSection/CommentSection";
+import Index from "../CommentSection";
 import {useLocalState} from "../util/useLocalStorage";
 
 const ReviewerImprovementProposalView = () => {
@@ -159,7 +159,7 @@ const ReviewerImprovementProposalView = () => {
                         </Button>
                     </div>
 
-                    <CommentSection
+                    <Index
                         improvementProposalId={improvementProposalId}
                         userData={userData}
                     />
