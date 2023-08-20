@@ -14,9 +14,11 @@ const Comment = ({comment, comments, setComments, userData}) => {
         updateTimeFromCommentCreation();
     })
 
-    setInterval(() => {
-        updateTimeFromCommentCreation()
-    }, 1000*61)
+    useEffect(() => {
+        setInterval(() => {
+            updateTimeFromCommentCreation()
+        }, 1000 * 61)
+    }, [])
 
     function updateTimeFromCommentCreation() {
         dayjs.extend(relativeTime);
@@ -65,40 +67,45 @@ const Comment = ({comment, comments, setComments, userData}) => {
 
     return (
         <>
-            <div className="comment-bubble">
-                <div style={{fontWeight: "bold"}}>{comment.createdBy.username}</div>
-                {!isEditOn ?
-                    <>
-                        <div>{comment.text}</div>
-                        {comment.createdBy.username === userData.username && lastCommentIndex === commentIndex ?
-                            <div style={{fontSize: "12px"}}>
+            <div className={comment.createdBy.role === "SUBMITTER" ? "d-flex flex-column align-items-end" : "d-flex flex-column"}>
+                <div
+                    className="comment-bubble"
+                    style={{backgroundColor: comment.createdBy.role === "SUBMITTER" ? "#e6fafa" : "#fafafa"}}
+                >
+                    <div style={{fontWeight: "bold"}}>{comment.createdBy.username}</div>
+                    {!isEditOn ?
+                        <>
+                            <div>{comment.text}</div>
+                            {comment.createdBy.username === userData.username && lastCommentIndex === commentIndex ?
+                                <div style={{fontSize: "12px"}}>
                         <span onClick={() => setIsEditOn(true)}
                               style={{cursor: "pointer", color: "blue"}}>edit </span>
-                                <span onClick={() => handleDeleteComment(comment)}
-                                      style={{cursor: "pointer", color: "red"}}>delete</span>
-                            </div>
-                            :
-                            <></>
-                        }
-                    </>
-                    :
-                    <>
+                                    <span onClick={() => handleDeleteComment(comment)}
+                                          style={{cursor: "pointer", color: "red"}}>delete</span>
+                                </div>
+                                :
+                                <></>
+                            }
+                        </>
+                        :
+                        <>
                 <textarea
                     style={{width: "100%"}}
                     value={editedComment.text}
                     onChange={(event) => handleEditedCommentChange(event.target.value)}
                 />
-                        <span onClick={() => submitEditedComment(comment)}
-                              style={{cursor: "pointer", color: "blue"}}>save </span>
-                        <span onClick={() => setIsEditOn(false)}
-                              style={{cursor: "pointer", color: "red"}}>cancel</span>
-                    </>
-                }
-            </div>
-            <div
-                style={{marginTop: "-1.2em", marginLeft: "1.4em", fontSize: "12px"}}
-            >
-                Posted {timeFromCommentCreation}
+                            <span onClick={() => submitEditedComment(comment)}
+                                  style={{cursor: "pointer", color: "blue"}}>save </span>
+                            <span onClick={() => setIsEditOn(false)}
+                                  style={{cursor: "pointer", color: "red"}}>cancel</span>
+                        </>
+                    }
+                </div>
+                <div
+                    style={{marginTop: "-1.2em", fontSize: "12px", marginLeft: comment.createdBy.role==="SUBMITTER" ? "0" : "0.6em", marginRight: comment.createdBy.role==="SUBMITTER" ? "0.6em" : "0"}}
+                >
+                    Posted {timeFromCommentCreation}
+                </div>
             </div>
         </>
 

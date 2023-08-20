@@ -64,7 +64,12 @@ const Dashboard = () => {
                     className="d-grid gap-5"
                     style={{gridTemplateColumns: "repeat(auto-fill, 18rem)"}}
                 >
-                    {improvementProposals.map(improvementProposal => (
+                    {improvementProposals
+                        .sort((a,b) => {
+                            if (a.status==="Completed") return 1
+                            else return -1
+                        })
+                        .map(improvementProposal => (
                         <Card
                             style={{width: '18rem', height: '13rem'}}
                             key={improvementProposal.id}

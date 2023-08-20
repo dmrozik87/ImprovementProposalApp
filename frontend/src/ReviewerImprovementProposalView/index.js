@@ -3,7 +3,7 @@ import {Button, Col, Container, DropdownButton, Form, Row} from "react-bootstrap
 import DropdownItem from "react-bootstrap/DropdownItem";
 import StatusBadge from "../StatusBadge";
 import {useNavigate} from "react-router-dom";
-import Index from "../CommentSection";
+import CommentSection from "../CommentSection/commentSection";
 import {useLocalState} from "../util/useLocalStorage";
 
 const ReviewerImprovementProposalView = () => {
@@ -21,6 +21,13 @@ const ReviewerImprovementProposalView = () => {
     const previousImprovementProposal = useRef(improvementProposal);
 
     let navigate = useNavigate();
+
+    const statusListToDisplayCommentSection = [
+        "In Review",
+        "Needs Update",
+        "Completed",
+        "Resubmitted"
+    ]
 
     function updateImprovementProposal(property, value) {
         const newImprovementProposal = {...improvementProposal};
@@ -70,6 +77,10 @@ const ReviewerImprovementProposalView = () => {
         })
     }, [])
 
+    function displayCommentSection(status) {
+        return statusListToDisplayCommentSection.includes(status);
+    }
+
     return (
         <Container className="mt-5">
             {improvementProposal ?
@@ -82,6 +93,7 @@ const ReviewerImprovementProposalView = () => {
                             <StatusBadge text={improvementProposal.status}/>
                         </Col>
                     </Row>
+
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="3" md="2">
                             Department
@@ -104,6 +116,7 @@ const ReviewerImprovementProposalView = () => {
                             </DropdownButton>
                         </Col>
                     </Form.Group>
+
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="3" md="2">
                             Description
@@ -119,50 +132,60 @@ const ReviewerImprovementProposalView = () => {
                             />
                         </Col>
                     </Form.Group>
+
+                    {displayCommentSection(improvementProposal.status) ?
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm="3" md="2">
+                                Comments
+                            </Form.Label>
+                            <Col sm="9" md="8" lg="6">
+                                <CommentSection
+                                    improvementProposalId={improvementProposalId}
+                                    improvementProposalStatus={improvementProposal.status}
+                                    userData={userData}
+                                />
+                            </Col>
+                        </Form.Group>
+                        :
+                        <></>
+                    }
+
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="3" md="2">
-                            Review
                         </Form.Label>
                         <Col sm="9" md="8" lg="6">
-                            <Form.Control
-                                id="review"
-                                as="textarea"
-                                rows={5}
-                                placeholder="Enter review"
-                                onChange={(event) => updateImprovementProposal("review", event.target.value)}
-                                value={improvementProposal.review}
-                            />
+                            <div className="d-flex justify-content-between">
+                                {improvementProposal.status === "In Review" ?
+                                    <>
+                                        <Button variant="outline-primary" size="lg"
+                                                onClick={() => save(statuses[4].status)}>
+                                            Complete Review
+                                        </Button>
+                                        <Button variant="outline-danger" size="lg"
+                                                onClick={() => save(statuses[3].status)}>
+                                            Send to Update
+                                        </Button>
+                                    </>
+                                    :
+                                    <></>
+                                }
+                                {improvementProposal.status === "Needs Update" || improvementProposal.status === "Completed" ?
+                                    <Button variant="outline-secondary" size="lg"
+                                            onClick={() => save(statuses[2].status)}>
+                                        Re-Claim
+                                    </Button>
+                                    :
+                                    <></>
+                                }
+                                <Button variant="outline-secondary" size="lg"
+                                        onClick={() => navigate("/dashboard")}>
+                                    Back
+                                </Button>
+                            </div>
                         </Col>
                     </Form.Group>
-                    <div className="d-flex gap-5">
-                        {improvementProposal.status === "Completed" ?
-                            <Button variant="outline-secondary" size="lg" onClick={() => save(statuses[2].status)}>
-                                Re-Claim
-                            </Button>
-                            :
-                            <Button variant="outline-primary" size="lg" onClick={() => save(statuses[4].status)}>
-                                Complete Review
-                            </Button>
-                        }
-                        {improvementProposal.status === "Needs Update" ?
-                            <Button variant="outline-secondary" size="lg" onClick={() => save(statuses[2].status)}>
-                                Re-Claim
-                            </Button>
-                            :
-                            <Button variant="outline-danger" size="lg" onClick={() => save(statuses[3].status)}>
-                                Send to Update
-                            </Button>
-                        }
-                        <Button variant="outline-secondary" size="lg"
-                                onClick={() => navigate("/dashboard")}>
-                            Back
-                        </Button>
-                    </div>
 
-                    <Index
-                        improvementProposalId={improvementProposalId}
-                        userData={userData}
-                    />
+
                 </>
                 :
                 <></>

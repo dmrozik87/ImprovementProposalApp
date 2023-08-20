@@ -4,7 +4,7 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import StatusBadge from "../StatusBadge";
 import {useNavigate, useParams} from "react-router-dom";
 import {useLocalState} from "../util/useLocalStorage";
-import Index from "../CommentSection";
+import CommentSection from "../CommentSection/commentSection";
 
 const ImprovementProposalView = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
@@ -21,6 +21,13 @@ const ImprovementProposalView = () => {
     const previousImprovementProposal = useRef(improvementProposal);
 
     let navigate = useNavigate();
+
+    const statusListToDisplayCommentSection = [
+        "In Review",
+        "Needs Update",
+        "Completed",
+        "Resubmitted"
+    ]
 
     function updateImprovementProposal(property, value) {
         const newImprovementProposal = {...improvementProposal};
@@ -84,12 +91,14 @@ const ImprovementProposalView = () => {
                             <StatusBadge text={improvementProposal.status}/>
                         </Col>
                     </Row>
+
                     <Form.Group as={Row} className="my-3">
                         <Form.Label column sm="3" md="2">
                             Title
                         </Form.Label>
                         <Col sm="9" md="8" lg="6">
                             <Form.Control
+                                disabled={improvementProposal.status !== "Pending Submission"}
                                 id="title"
                                 type="text"
                                 placeholder="Enter title"
@@ -98,12 +107,14 @@ const ImprovementProposalView = () => {
                             />
                         </Col>
                     </Form.Group>
+
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="3" md="2">
                             Department
                         </Form.Label>
                         <Col sm="9" md="8" lg="6">
                             <DropdownButton
+                                disabled={improvementProposal.status !== "Pending Submission"}
                                 as={ButtonGroup}
                                 id="department"
                                 variant="outline-secondary"
@@ -121,12 +132,14 @@ const ImprovementProposalView = () => {
                             </DropdownButton>
                         </Col>
                     </Form.Group>
+
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="3" md="2">
                             Description
                         </Form.Label>
                         <Col sm="9" md="8" lg="6">
                             <Form.Control
+                                disabled={improvementProposal.status !== "Pending Submission"}
                                 id="description"
                                 as="textarea"
                                 rows={5}
@@ -136,44 +149,43 @@ const ImprovementProposalView = () => {
                             />
                         </Col>
                     </Form.Group>
-                    {improvementProposal.status === "Completed" || improvementProposal.status === "Needs Update" ?
-                        <>
-                            <Form.Group as={Row} className="mb-3">
-                                <Form.Label column sm="3" md="2">
-                                    Review
-                                </Form.Label>
-                                <Col sm="9" md="8" lg="6">
-                                    <Form.Control
-                                        disabled
-                                        id="review"
-                                        as="textarea"
-                                        rows={5}
-                                        value={improvementProposal.review}
-                                    />
-                                </Col>
-                            </Form.Group>
-                        </>
+
+                    {statusListToDisplayCommentSection.includes(improvementProposal.status) ?
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label column sm="3" md="2">
+                                Comments
+                            </Form.Label>
+                            <Col sm="9" md="8" lg="6">
+                                <CommentSection
+                                    improvementProposalId={improvementProposalId}
+                                    improvementProposalStatus={improvementProposal.status}
+                                    userData={userData}
+                                />
+                            </Col>
+                        </Form.Group>
                         :
                         <></>
                     }
-                    <div className="d-flex gap-5">
-                        {improvementProposal.status === "Completed" || improvementProposal.status === "Submitted" ?
-                            <></>
-                            :
-                            <Button variant="outline-primary" size="lg" onClick={() => save()}>
-                                Submit Improvement Proposal
-                            </Button>
-                        }
-                        <Button variant="outline-secondary" size="lg"
-                                onClick={() => navigate("/dashboard")}>
-                            Back
-                        </Button>
-                    </div>
 
-                    <Index
-                        improvementProposalId={improvementProposalId}
-                        userData={userData}
-                    />
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="3" md="2">
+                        </Form.Label>
+                        <Col sm="9" md="8" lg="6">
+                            <div className="d-flex justify-content-between mt-5 mb-5">
+                                {improvementProposal.status === "Pending Submission" || improvementProposal.status === "Needs Update" ?
+                                    <Button variant="outline-primary" size="lg" onClick={() => save()}>
+                                        Submit Improvement Proposal
+                                    </Button>
+                                    :
+                                    <></>
+                                }
+                                <Button variant="outline-secondary" size="lg"
+                                        onClick={() => navigate("/dashboard")}>
+                                    Back
+                                </Button>
+                            </div>
+                        </Col>
+                    </Form.Group>
                 </>
                 :
                 <></>

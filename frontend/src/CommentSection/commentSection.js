@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Comment from "../Comment";
-import {Button} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
-const Index = ({improvementProposalId, userData}) => {
+const CommentSection = ({improvementProposalId, improvementProposalStatus, userData}) => {
 
     const emptyComment = {
         text: "",
@@ -48,10 +48,16 @@ const Index = ({improvementProposalId, userData}) => {
             })
     }
 
+    function showPostCommentArea(improvementProposalStatus, role) {
+        if (improvementProposalStatus === "Needs Update" && role === "SUBMITTER") return true;
+        else if (improvementProposalStatus === "In Review" && role === "REVIEWER") return true;
+        else return false;
+    }
+
     return (
         <div>
 
-            <div className="mt-5">
+            <div>
                 {comments.map(comment =>
                     <Comment
                         comment={comment} key={comment.id}
@@ -62,17 +68,31 @@ const Index = ({improvementProposalId, userData}) => {
                 )}
             </div>
 
-            <div className="mt-5">
-                        <textarea
-                            style={{width: "100%"}}
-                            onChange={(event) => handleCommentChange(event.target.value)}
-                            value={comment.text}
-                        >
-                        </textarea>
-                <Button onClick={() => submitComment()}>Post Comment</Button>
-            </div>
+            {showPostCommentArea(improvementProposalStatus, userData.role) ?
+                <div>
+                    <Form.Control
+                        className={comments ? "mt-3" : ""}
+                        id="comment"
+                        as="textarea"
+                        rows={3}
+                        placeholder="Enter comment"
+                        onChange={(event) => handleCommentChange(event.target.value)}
+                        value={comment.text}
+                    />
+
+                    <Button
+                        onClick={() => submitComment()}
+                        className="mt-2"
+                    >
+                        Post Comment
+                    </Button>
+                </div>
+                :
+                <></>
+            }
+
         </div>
     );
 };
 
-export default Index;
+export default CommentSection;

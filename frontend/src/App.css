@@ -18,8 +18,8 @@
 }
 
 .comment-bubble {
-    background-color: #eeeeee;
-    border-radius: 1em;
-    padding: 1em;
+    border-radius: 0.5em;
+    padding: 0.5em;
     margin: 1em 0;
+    width: 70%;
 }
