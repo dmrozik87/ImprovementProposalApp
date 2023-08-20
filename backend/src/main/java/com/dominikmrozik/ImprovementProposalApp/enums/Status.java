@@ -9,7 +9,8 @@ public enum Status {
     IN_REVIEW("In Review", 3),
     NEEDS_UPDATE("Needs Update", 4),
     COMPLETED("Completed", 5),
-    RESUBMITTED("Resubmitted", 6);
+    RESUBMITTED("Resubmitted", 6),
+    REJECTED("Rejected", 7);
 
     private final String status;
     private final int step;

@@ -161,9 +161,13 @@ const ReviewerImprovementProposalView = () => {
                                                 onClick={() => save(statuses[4].status)}>
                                             Complete Review
                                         </Button>
-                                        <Button variant="outline-danger" size="lg"
+                                        <Button variant="outline-warning" size="lg"
                                                 onClick={() => save(statuses[3].status)}>
                                             Send to Update
+                                        </Button>
+                                        <Button variant="outline-danger" size="lg"
+                                                onClick={() => save(statuses[6].status)}>
+                                            Reject
                                         </Button>
                                     </>
                                     :

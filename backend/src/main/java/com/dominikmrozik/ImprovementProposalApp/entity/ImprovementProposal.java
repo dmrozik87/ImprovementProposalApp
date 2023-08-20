@@ -11,7 +11,6 @@ public class ImprovementProposal {
     private String title;
     private String department;
     private String description;
-    private String review;
     @ManyToOne(optional = false)
     private User user;
     @ManyToOne
@@ -55,14 +54,6 @@ public class ImprovementProposal {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getReview() {
-        return review;
-    }
-
-    public void setReview(String review) {
-        this.review = review;
     }
 
     public User getUser() {

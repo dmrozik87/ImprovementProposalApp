@@ -24,7 +24,6 @@ public class ImprovementProposalService {
         improvementProposal.setTitle("");
         improvementProposal.setDepartment("");
         improvementProposal.setDescription("");
-        improvementProposal.setReview("");
         improvementProposal.setUser(user);
         return improvementProposalRepository.save(improvementProposal);
     }

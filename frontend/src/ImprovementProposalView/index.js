@@ -23,10 +23,10 @@ const ImprovementProposalView = () => {
     let navigate = useNavigate();
 
     const statusListToDisplayCommentSection = [
-        "In Review",
         "Needs Update",
         "Completed",
-        "Resubmitted"
+        "Resubmitted",
+        "Rejected"
     ]
 
     function updateImprovementProposal(property, value) {
