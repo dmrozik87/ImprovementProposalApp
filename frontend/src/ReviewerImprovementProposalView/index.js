@@ -26,7 +26,14 @@ const ReviewerImprovementProposalView = () => {
         "In Review",
         "Needs Update",
         "Completed",
-        "Resubmitted"
+        "Resubmitted",
+        "Rejected"
+    ]
+
+    const statusListToDisplayReclaimButton = [
+        "Needs Update",
+        "Completed",
+        "Rejected"
     ]
 
     function updateImprovementProposal(property, value) {
@@ -173,7 +180,7 @@ const ReviewerImprovementProposalView = () => {
                                     :
                                     <></>
                                 }
-                                {improvementProposal.status === "Needs Update" || improvementProposal.status === "Completed" ?
+                                {statusListToDisplayReclaimButton.includes(improvementProposal.status) ?
                                     <Button variant="outline-secondary" size="lg"
                                             onClick={() => save(statuses[2].status)}>
                                         Re-Claim

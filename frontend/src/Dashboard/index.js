@@ -12,6 +12,11 @@ const Dashboard = () => {
 
     let navigate = useNavigate();
 
+    const finishedStatuses = [
+        "Completed",
+        "Rejected"
+    ]
+
     useEffect(() => {
         fetch(`api/improvement-proposals/by-user/${userData.id}`, {
             headers: {
@@ -54,46 +59,92 @@ const Dashboard = () => {
                     </div>
                 </Col>
             </Row>
-            <div className="mb-5">
+            <Row>
+                <Col>
+                    <div className="h1">Submitter Dashboard</div>
+                </Col>
+            </Row>
+            <div className="mb-5 mt-3">
                 <Button size="lg" variant="outline-primary" onClick={() => createImprovementProposal()}>
                     Submit New Improvement Proposal
                 </Button>
             </div>
-            {improvementProposals ?
-                <div
-                    className="d-grid gap-5"
-                    style={{gridTemplateColumns: "repeat(auto-fill, 18rem)"}}
-                >
-                    {improvementProposals
-                        .sort((a,b) => {
-                            if (a.status==="Completed") return 1
-                            else return -1
-                        })
-                        .map(improvementProposal => (
-                        <Card
-                            style={{width: '18rem', height: '13rem'}}
-                            key={improvementProposal.id}
-                        >
-                            <Card.Body className="d-flex flex-column justify-content-around">
-                                <Card.Title>{improvementProposal.title}</Card.Title>
-                                <StatusBadge text={improvementProposal.status}/>
-                                <Card.Text style={{marginTop: "1em"}}>
-                                    <b>Department</b>: {improvementProposal.department}
-                                </Card.Text>
-                                <Button
-                                    variant="outline-secondary"
-                                    onClick={() => {
-                                        navigate(`/improvement-proposals/${improvementProposal.id}`)
-                                    }}>
-                                    Edit
-                                </Button>
-                            </Card.Body>
-                        </Card>
-                    ))}
+            <div className="ip-wrapper ongoing">
+                <div className="ip-wrapper-title">
+                    Ongoing
                 </div>
-                :
-                <></>
-            }
+                {improvementProposals && improvementProposals.filter(ip => !finishedStatuses.includes(ip.status)).length > 0 ?
+                    <div
+                        className="d-grid gap-5"
+                        style={{gridTemplateColumns: "repeat(auto-fill, 18rem)"}}
+                    >
+                        {improvementProposals
+                            .filter(ip => !finishedStatuses.includes(ip.status))
+                            .map(improvementProposal => (
+                            <Card
+                                style={{width: '18rem', height: '13rem'}}
+                                key={improvementProposal.id}
+                            >
+                                <Card.Body className="d-flex flex-column justify-content-around">
+                                    <Card.Title>{improvementProposal.title}</Card.Title>
+                                    <StatusBadge text={improvementProposal.status}/>
+                                    <Card.Text style={{marginTop: "1em"}}>
+                                        <b>Department</b>: {improvementProposal.department}
+                                    </Card.Text>
+                                    <Button
+                                        variant="outline-secondary"
+                                        onClick={() => {
+                                            navigate(`/improvement-proposals/${improvementProposal.id}`)
+                                        }}>
+                                        {improvementProposal.status === "Pending Submission" || improvementProposal.status === "Needs Update" ?
+                                        "Edit" : "View" }
+                                    </Button>
+                                </Card.Body>
+                            </Card>
+                        ))}
+                    </div>
+                    :
+                    <div>No improvement proposals found</div>
+                }
+            </div>
+
+            <div className="ip-wrapper finished">
+                <div className="ip-wrapper-title">
+                    Finished
+                </div>
+                {improvementProposals && improvementProposals.filter(ip => finishedStatuses.includes(ip.status)).length > 0 ?
+                    <div
+                        className="d-grid gap-5"
+                        style={{gridTemplateColumns: "repeat(auto-fill, 18rem)"}}
+                    >
+                        {improvementProposals
+                            .filter(ip => finishedStatuses.includes(ip.status))
+                            .map(improvementProposal => (
+                                <Card
+                                    style={{width: '18rem', height: '13rem'}}
+                                    key={improvementProposal.id}
+                                >
+                                    <Card.Body className="d-flex flex-column justify-content-around">
+                                        <Card.Title>{improvementProposal.title}</Card.Title>
+                                        <StatusBadge text={improvementProposal.status}/>
+                                        <Card.Text style={{marginTop: "1em"}}>
+                                            <b>Department</b>: {improvementProposal.department}
+                                        </Card.Text>
+                                        <Button
+                                            variant="outline-secondary"
+                                            onClick={() => {
+                                                navigate(`/improvement-proposals/${improvementProposal.id}`)
+                                            }}>
+                                            View
+                                        </Button>
+                                    </Card.Body>
+                                </Card>
+                            ))}
+                    </div>
+                    :
+                    <div>No improvement proposals found</div>
+                }
+            </div>
         </div>
     );
 };
