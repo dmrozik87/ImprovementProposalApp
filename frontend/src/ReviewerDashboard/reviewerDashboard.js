@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useLocalState} from "../util/useLocalStorage";
 import Card from 'react-bootstrap/Card';
 import {Button, Col, Container, Row} from "react-bootstrap";
-import StatusBadge from "../StatusBadge";
+import StatusBadge from "../StatusBadge/statusBadge";
 import {useNavigate} from "react-router-dom";
 
 const ReviewerDashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
     const [improvementProposals, setImprovementProposals] = useState(null);
-    const [role, setRole] = useState(userData !== null ? userData.role : "");
 
     let navigate = useNavigate();
 
@@ -43,7 +42,7 @@ const ReviewerDashboard = () => {
         })
     }
 
-    function editReview(improvementProposal) {
+    function edit(improvementProposal) {
         navigate(`/improvement-proposals/${improvementProposal.id}`)
     }
 
@@ -96,7 +95,7 @@ const ReviewerDashboard = () => {
                                         <Button
                                             variant="outline-secondary"
                                             onClick={() => {
-                                                editReview(improvementProposal);
+                                                edit(improvementProposal);
                                             }}>
                                             Edit
                                         </Button>
@@ -174,9 +173,9 @@ const ReviewerDashboard = () => {
                                         <Button
                                             variant="outline-secondary"
                                             onClick={() => {
-                                                editReview(improvementProposal);
+                                                edit(improvementProposal);
                                             }}>
-                                            View
+                                            Edit
                                         </Button>
                                     </Card.Body>
                                 </Card>

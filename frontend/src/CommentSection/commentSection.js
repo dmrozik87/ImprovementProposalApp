@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Comment from "../Comment";
+import Comment from "../Comment/comment";
 import {Button, Form} from "react-bootstrap";
 
 const CommentSection = ({improvementProposalId, improvementProposalStatus, userData}) => {
@@ -64,6 +64,7 @@ const CommentSection = ({improvementProposalId, improvementProposalStatus, userD
                         comments={comments}
                         setComments={setComments}
                         userData={userData}
+                        improvementProposalStatus={improvementProposalStatus}
                     />
                 )}
             </div>

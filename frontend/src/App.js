@@ -1,15 +1,15 @@
 import './App.css';
 import {Route, Routes} from "react-router-dom";
-import Dashboard from "./Dashboard";
-import Homepage from "./Homepage";
-import Login from "./Login";
-import PrivateRoute from "./PrivateRoute";
-import ImprovementProposalView from "./ImprovementProposalView";
+import Dashboard from "./Dashboard/dashboard";
+import Homepage from "./Homepage/homepage";
+import Login from "./Login/login";
+import PrivateRoute from "./PrivateRoute/privateRoute";
+import ImprovementProposalView from "./ImprovementProposalView/improvementProposalView";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {useState} from "react";
 import {useLocalState} from "./util/useLocalStorage";
-import ReviewerDashboard from "./ReviewerDashboard";
-import ReviewerImprovementProposalView from "./ReviewerImprovementProposalView";
+import ReviewerDashboard from "./ReviewerDashboard/reviewerDashboard";
+import ReviewerImprovementProposalView from "./ReviewerImprovementProposalView/reviewerImprovementProposalView";
 
 function App() {
 

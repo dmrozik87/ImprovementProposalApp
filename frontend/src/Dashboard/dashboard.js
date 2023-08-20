@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useLocalState} from "../util/useLocalStorage";
 import Card from 'react-bootstrap/Card';
 import {Button, Col, Row} from "react-bootstrap";
-import StatusBadge from "../StatusBadge";
+import StatusBadge from "../StatusBadge/statusBadge";
 import {useNavigate} from "react-router-dom";
 
 const Dashboard = () => {
     const [userData, setUserData] = useLocalState({}, "userData");
     const [improvementProposals, setImprovementProposals] = useState(null);
-    const [role, setRole] = useState(userData !== null ? userData.role : "");
 
     let navigate = useNavigate();
 

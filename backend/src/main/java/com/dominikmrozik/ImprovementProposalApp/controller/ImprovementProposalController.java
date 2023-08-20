@@ -33,8 +33,10 @@ public class ImprovementProposalController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getImprovementProposalById(@PathVariable Long id) {
         Optional<ImprovementProposal> improvementProposalOptional = improvementProposalService.getImprovementProposalById(id);
-        ImprovementProposalResponseDto improvementProposalResponseDto = new ImprovementProposalResponseDto(improvementProposalOptional.orElse(new ImprovementProposal()));
-        return ResponseEntity.ok(improvementProposalResponseDto);
+        if (improvementProposalOptional.isPresent()) {
+            ImprovementProposalResponseDto improvementProposalResponseDto = new ImprovementProposalResponseDto(improvementProposalOptional.orElse(new ImprovementProposal()));
+            return ResponseEntity.ok(improvementProposalResponseDto);
+        } else return ResponseEntity.badRequest().build();
     }
 
     @PutMapping("/{id}")

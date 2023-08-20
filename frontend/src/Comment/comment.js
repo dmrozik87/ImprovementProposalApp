@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"
 
-const Comment = ({comment, comments, setComments, userData}) => {
+const Comment = ({comment, comments, setComments, userData, improvementProposalStatus}) => {
     const [isEditOn, setIsEditOn] = useState(false);
     const [editedComment, setEditedComment] = useState(comment);
     const [timeFromCommentCreation, setTimeFromCommentCreation] = useState("");
@@ -65,6 +65,16 @@ const Comment = ({comment, comments, setComments, userData}) => {
         })
     }
 
+    function displayEditCommentButtons() {
+        if (comment.createdBy.username === userData.username && lastCommentIndex === commentIndex) {
+            if (improvementProposalStatus === "In Review") return true;
+            else if (improvementProposalStatus === "Needs Update" && userData.role === "REVIEWER") return false;
+            else if (improvementProposalStatus === "Needs Update" && userData.role === "SUBMITTER") return true;
+            else return false;
+        }
+        else return false
+    }
+
     return (
         <>
             <div className={comment.createdBy.role === "SUBMITTER" ? "d-flex flex-column align-items-end" : "d-flex flex-column"}>
@@ -76,7 +86,7 @@ const Comment = ({comment, comments, setComments, userData}) => {
                     {!isEditOn ?
                         <>
                             <div>{comment.text}</div>
-                            {comment.createdBy.username === userData.username && lastCommentIndex === commentIndex ?
+                            {displayEditCommentButtons() ?
                                 <div style={{fontSize: "12px"}}>
                         <span onClick={() => setIsEditOn(true)}
                               style={{cursor: "pointer", color: "blue"}}>edit </span>
