@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Comment from "../Comment/comment";
 import {Button, Form} from "react-bootstrap";
 
-const CommentSection = ({improvementProposalId, improvementProposalStatus, userData}) => {
+const CommentSection = ({improvementProposalId, improvementProposalStatus, userData, comments, setComments}) => {
 
     const emptyComment = {
         text: "",
@@ -11,20 +11,6 @@ const CommentSection = ({improvementProposalId, improvementProposalStatus, userD
     }
 
     const [comment, setComment] = useState(emptyComment);
-    const [comments, setComments] = useState([]);
-
-    useEffect(() => {
-        fetch(`/api/comments?improvementProposalId=${improvementProposalId}`, {
-            headers: {
-                "Content-Type": "application/json"
-            },
-            method: "GET",
-        }).then(response => {
-            if (response.status === 200) return response.json();
-        }).then(commentsData => {
-            setComments(commentsData);
-        })
-    }, [])
 
     function handleCommentChange(value) {
         const commentCopy = {...comment};
@@ -48,9 +34,9 @@ const CommentSection = ({improvementProposalId, improvementProposalStatus, userD
             })
     }
 
-    function showPostCommentArea(improvementProposalStatus, role) {
-        if (improvementProposalStatus === "Needs Update" && role === "SUBMITTER") return true;
-        else if (improvementProposalStatus === "In Review" && role === "REVIEWER") return true;
+    function showPostCommentArea() {
+        if (improvementProposalStatus === "Needs Update" && userData.role === "SUBMITTER") return true;
+        else if (improvementProposalStatus === "In Review" && userData.role === "REVIEWER") return true;
         else return false;
     }
 
@@ -69,7 +55,7 @@ const CommentSection = ({improvementProposalId, improvementProposalStatus, userD
                 )}
             </div>
 
-            {showPostCommentArea(improvementProposalStatus, userData.role) ?
+            {showPostCommentArea() ?
                 <div>
                     <Form.Control
                         className={comments ? "mt-3" : ""}

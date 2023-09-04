@@ -17,12 +17,14 @@ const ImprovementProposalView = () => {
     });
     const [departments, setDepartments] = useState([]);
     const [statuses, setStatuses] = useState([]);
+    const [comments, setComments] = useState([]);
 
     const previousImprovementProposal = useRef(improvementProposal);
 
     let navigate = useNavigate();
 
     const statusListToDisplayCommentSection = [
+        "In Review",
         "Needs Update",
         "Completed",
         "Resubmitted",
@@ -80,6 +82,20 @@ const ImprovementProposalView = () => {
             }
         })
     }, [])
+
+    useEffect(() => {
+        fetch(`/api/comments?improvementProposalId=${improvementProposalId}`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "GET",
+        }).then(response => {
+            if (response.status === 200) return response.json();
+        }).then(commentsData => {
+            setComments(commentsData);
+        })
+    }, [])
+
 
     return (
         <Container className="mt-5">
@@ -152,7 +168,7 @@ const ImprovementProposalView = () => {
                         </Col>
                     </Form.Group>
 
-                    {statusListToDisplayCommentSection.includes(improvementProposal.status) ?
+                    {statusListToDisplayCommentSection.includes(improvementProposal.status) && comments.length > 0 ?
                         <Form.Group as={Row} className="mb-3">
                             <Form.Label column sm="3" md="2">
                                 Comments
@@ -162,6 +178,8 @@ const ImprovementProposalView = () => {
                                     improvementProposalId={improvementProposalId}
                                     improvementProposalStatus={improvementProposal.status}
                                     userData={userData}
+                                    comments={comments}
+                                    setComments={setComments}
                                 />
                             </Col>
                         </Form.Group>
