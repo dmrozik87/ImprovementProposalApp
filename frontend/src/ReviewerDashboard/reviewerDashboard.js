@@ -186,6 +186,43 @@ const ReviewerDashboard = () => {
                 }
             </div>
 
+            <div className="ip-wrapper finished">
+                <div className="ip-wrapper-title">
+                    Finished
+                </div>
+                {improvementProposals && improvementProposals.filter(ip => ip.status === "Completed" || ip.status === "Rejected").length > 0 ?
+                    <div
+                        className="d-grid gap-5"
+                        style={{gridTemplateColumns: "repeat(auto-fill, 18rem)"}}
+                    >
+                        {improvementProposals.filter(ip => ip.status === "Completed" || ip.status === "Rejected")
+                            .map(improvementProposal => (
+                                <Card
+                                    style={{width: '18rem', height: '13rem'}}
+                                    key={improvementProposal.id}
+                                >
+                                    <Card.Body className="d-flex flex-column justify-content-around">
+                                        <Card.Title>{improvementProposal.title}</Card.Title>
+                                        <StatusBadge text={improvementProposal.status}/>
+                                        <Card.Text style={{marginTop: "1em"}}>
+                                            <b>Department</b>: {improvementProposal.department}
+                                        </Card.Text>
+                                        <Button
+                                            variant="outline-secondary"
+                                            onClick={() => {
+                                                edit(improvementProposal);
+                                            }}>
+                                            View
+                                        </Button>
+                                    </Card.Body>
+                                </Card>
+                            ))}
+                    </div>
+                    :
+                    <div>No improvement proposals found</div>
+                }
+            </div>
+
         </Container>
     );
 };
