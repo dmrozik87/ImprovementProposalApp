@@ -27,16 +27,15 @@ It is a training project created to practice Spring Boot, Spring Data, React and
 
 #### Improvement Proposal view with comments:
 
-![IP view with comments](https://github.com/dmrozik87/ImprovementProposalApp/assets/116550191/eae35b88-1528-49a1-90c2-78b901d0b830)
+![IP view with comments](https://github.com/dmrozik87/ImprovementProposalApp/assets/116550191/e596e3b0-3b95-420b-9b4f-85808e77f4d1)
 
 #### Submitter Dashboard:
 
-![Submitter Dashboard](https://github.com/dmrozik87/ImprovementProposalApp/assets/116550191/98d9bf34-7ae1-4d22-9f29-93c699ba12cf)
+![Submitter Dashboard](https://github.com/dmrozik87/ImprovementProposalApp/assets/116550191/75ac0c4b-ba86-4304-940b-14a71f969492)
 
 #### Reviewer Dashboard:
 
-![Reviewer Dashboard](https://github.com/dmrozik87/ImprovementProposalApp/assets/116550191/996a3743-2c91-42bd-9528-47b8aae7f323)
-
+![Reviewer Dashboard](https://github.com/dmrozik87/ImprovementProposalApp/assets/116550191/796dc353-f43b-4438-a2b9-1fc29babb12d)
 
 
 ## Running the Project
