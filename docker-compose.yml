@@ -1,0 +1,32 @@
+services:
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      DB_URL: jdbc:postgresql://postgres-db/improvement_proposal_db
+      DB_USER: postgres
+      DB_PASSWORD: postgrespassword
+    depends_on:
+      - postgres-db
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 80:3000
+    depends_on:
+      - backend
+  postgres-db:
+    image: postgres:16
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: improvement_proposal_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+
+volumes:
+  dbdata:
