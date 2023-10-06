@@ -5,7 +5,7 @@
 
 "Improvement Proposal" is an application intended for companies, enterprises, factories, etc. that would like to enable employees to submit various types of improvement proposals in an organized way. It allows employees to submit suggestions for improvements and have them assessed by reviewers.
 
-It is a training project created to practice Spring Boot, Spring Data, React and learn about Bootstrap.
+It is a training project created to practice Spring Boot, Spring Data, React and learn about Dockerization and Bootstrap.
 
 ## Features
 
@@ -20,6 +20,7 @@ It is a training project created to practice Spring Boot, Spring Data, React and
 - Spring Data
 - PostgreSQL
 - React
+- Docker
 - Bootstrap
 - Day.js
 
@@ -42,28 +43,35 @@ It is a training project created to practice Spring Boot, Spring Data, React and
 
 To run the project, follow these steps:
 
-**Clone the Repository**: Clone the project repository to your computer:
+1. Clone the project repository to your computer:
 
 ```
 git clone https://github.com/dmrozik87/ImprovementProposalApp.git
 ```    
-
-### Frontend
-
-1. Navigate to 'frontend' folder.
-2. Install all required dependencies to run the project. You can use npm:
-
+2. Make sure that Docker is running
+3. Open a command-line interface (e.g. Windows PowerShell, Git Bash e.t.c.) and navigate to the repository
+4. Use the command below to pull all dependencies, build images and run containers:
 ```
-npm install
+docker compose up
 ```
+Once completed, you will be able to connect to localhost in your browser and see the login screen. However, you will not be able to log in because the database in the container does not contain any users. Follow the steps below to add users.
 
-3. Run the frontend application:
-
+5. Enter a running container with PostgreSQL database:
 ```
-npm start
+docker exec -it improvementproposalapp-postgres-db-1 bash
 ```
 
-### Backend
+6. Enter database:
+```
+psql --dbname improvement_proposal_db --username postgres
+```
 
-1. Configure database connecti0n of your liking in backend/src/main/resources/application.properties
-2. Run backend/src/main/java/com/dominikmrozik/ImprovementProposalApp/ImprovementProposalApplication.java
+7. Add a submitter and a reviewer:
+```
+INSERT INTO users (username, password, role) VALUES ('Submitter1', 'Submitter1', 'SUBMITTER'), ('Reviewer1', 'Reviewer1', 'REVIEWER');
+
+```
+
+I recommend adding at least one submitter and one reviewer (but preferably two of each type) to test the application for each role.
+
+8. Now you can log in to the application using the credentials you created
